@@ -1,6 +1,7 @@
 import Image from "next/image";
 
-const benefits = [
+type Benefit = { icon: string; title: string; description: string };
+const benefits: Benefit[] = [
   {
     icon: "⚡",
     title: "Ship faster",
@@ -99,6 +100,7 @@ export default function Home() {
           </a>
         </div>
 
+        {/* Full-width bleed: compensates for parent px-16 padding */}
         <section className="-mx-16 w-[calc(100%+8rem)] bg-[#0a0a0a] px-16 py-16">
           <div className="mx-auto max-w-2xl">
             <div className="mb-10 text-center">
