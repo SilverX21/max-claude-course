@@ -1,7 +1,7 @@
 # Benefits Section Design
 
 **Date:** 2026-06-04
-**File:** `starting-project/app/page.tsx`
+**File:** `first-steps/app/page.tsx`
 
 ## Goal
 

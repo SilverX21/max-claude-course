@@ -13,19 +13,19 @@
 ### Task 1: Add the benefits section to page.tsx
 
 **Files:**
-- Modify: `starting-project/app/page.tsx`
+- Modify: `first-steps/app/page.tsx`
 
 - [ ] **Step 1: Start the dev server and verify the current page**
 
 ```bash
-cd starting-project && npm run dev
+cd first-steps && npm run dev
 ```
 
 Open http://localhost:3000 in your browser. You should see: Next.js logo at top, heading + paragraph in the middle, two CTA buttons at the bottom. This is the baseline.
 
 - [ ] **Step 2: Add the benefits section**
 
-In `starting-project/app/page.tsx`, replace the closing `</main>` tag so the benefits section is inserted after the CTA buttons block. The full file should become:
+In `first-steps/app/page.tsx`, replace the closing `</main>` tag so the benefits section is inserted after the CTA buttons block. The full file should become:
 
 ```tsx
 import Image from "next/image";
@@ -183,6 +183,6 @@ Resize the browser window below 640px — the grid should collapse to 1 column.
 - [ ] **Step 4: Commit**
 
 ```bash
-cd starting-project && git add app/page.tsx
+cd first-steps && git add app/page.tsx
 git commit -m "feat: add benefits section to main page"
 ```
