@@ -1,10 +1,20 @@
 import { Database } from "bun:sqlite";
+import { mkdirSync } from "fs";
+import { dirname } from "path";
 
-const dbPath = process.env.DB_PATH ?? "data/app.db";
+// During Next.js build, multiple workers share no state — use in-memory DB to avoid SQLITE_BUSY
+const isNextBuild = process.env.NEXT_PHASE === "phase-production-build";
+const dbPath = isNextBuild ? ":memory:" : (process.env.DB_PATH ?? "data/app.db");
+
+if (!isNextBuild) {
+  mkdirSync(dirname(dbPath), { recursive: true });
+}
 
 export const db = new Database(dbPath, { create: true });
 
-db.run("PRAGMA journal_mode = WAL;");
+if (!isNextBuild) {
+  db.run("PRAGMA journal_mode = WAL;");
+}
 
 db.run(`
   CREATE TABLE IF NOT EXISTS user (

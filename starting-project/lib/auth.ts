@@ -1,6 +1,8 @@
 import { betterAuth } from "better-auth";
+import { cache } from "react";
 import { headers } from "next/headers";
 import { db } from "@/lib/db";
+import { nextCookies } from "better-auth/next-js";
 
 export const auth = betterAuth({
   database: db,
@@ -9,11 +11,12 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
   },
+  plugins: [nextCookies()],
 });
 
-export async function getSession() {
-  return auth.api.getSession({ headers: await headers() });
-}
+export const getSession = cache(async () =>
+  auth.api.getSession({ headers: await headers() })
+);
 
 export async function getCurrentUser() {
   const session = await getSession();

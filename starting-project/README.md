@@ -70,3 +70,40 @@ With this, we can run the prompt like this:
 ```
 
 For this, Claude Code will use our new MCP server to check the web for that documentation we were checking above
+
+### 9. Subagents
+
+Subagents are agents that Claude Code deploys to handle some tasks. Sometimes when work is being done, we can see some other tasks being done. That's Claude using some sub agents to take care of other tasks.
+Sub agents will have their own session and will come back to the main session with the work done. To create subagents, we can do the following:
+
+- Go to your `.claude/` folder
+- add a folder named `agents/`
+- inside that folder, create an md file with the name of your agent, in this case we will call it DocsExplorer.md
+- in that file, we can specify some info and rules:
+  - name, description, tools and model
+  - Workflow that will be done
+  - Rules to be applied
+  - Output format of the agent work
+
+### 10. Encouraging Agents usage
+
+We can make Claude to use the subagents we create, for that, we must use the CLAUDE.md file and give there some instructions and rules for it to use those agents:
+
+```
+Whenever working with any third-party library or something similar, you MUST look up the official documentation to ensire that you're working with up-to-date information.
+Use the DocsExplorer subagent for efficient documentation lookup.
+```
+
+### 11. Skills
+
+Skills are like things an agent is good at, for example, we can have an agent that is good at programming in C#, other in TypeScript, etc. Some can even be good at security, architecture and so on.
+Skills are created basically like the agents, but in this case we will have a `SKILL.md` file, like this:
+
+- First create a folder called `skills/` inside `.claude/` folder
+- then you can create another folder with the skill name you want, for example: `dotnet-master`
+- inside you'll need to create a file called `SKILL.md`, where you have your instructions and rules for that skill
+- inside a skill we can have:
+  - extra .md files
+  - a `references/` folder
+  - a `scripts/` folder
+  - as `assets/` folder
