@@ -107,3 +107,18 @@ Skills are created basically like the agents, but in this case we will have a `S
   - a `references/` folder
   - a `scripts/` folder
   - as `assets/` folder
+
+A skill must have a `name` and `description`, something like this:
+
+```
+---
+name: cool-skill
+description: this is a cool skill
+```
+
+One important thing, the name of the skill must be the same name of the folder that skill is located!
+Tip: Try to maintain your skills concise, this way the skill will work better!
+
+You can see more information about Skills in this [page](https://code.claude.com/docs/en/skills)
+
+### 12.
