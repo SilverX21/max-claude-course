@@ -1,10 +1,7 @@
 "use client";
-import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 
 export function LogoutButton() {
-  const router = useRouter();
-
   async function handleLogout() {
     await authClient.signOut();
     window.location.href = "/";
@@ -13,7 +10,7 @@ export function LogoutButton() {
   return (
     <button
       onClick={handleLogout}
-      className="cursor-pointer text-sm text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
+      className="cursor-pointer text-sm px-3 py-1.5 rounded-md text-muted hover:text-fg hover:bg-surface transition-colors"
     >
       Log out
     </button>

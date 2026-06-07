@@ -36,25 +36,23 @@ export function ShareToggle({ noteId, initialIsPublic, initialSlug, origin }: Pr
         />
         <div
           className={`w-9 h-5 rounded-full transition-colors ${
-            isPublic
-              ? "bg-zinc-900 dark:bg-zinc-100"
-              : "bg-zinc-300 dark:bg-zinc-600"
+            isPublic ? "bg-accent" : "bg-border"
           }`}
         >
           <div
-            className={`w-4 h-4 rounded-full bg-white dark:bg-zinc-900 m-0.5 transition-transform ${
+            className={`w-4 h-4 rounded-full bg-accent-fg m-0.5 transition-transform shadow-sm ${
               isPublic ? "translate-x-4" : ""
             }`}
           />
         </div>
-        <span className="text-sm text-zinc-700 dark:text-zinc-300">Share</span>
+        <span className="text-sm text-fg">Share</span>
       </label>
       {isPublic && publicUrl ? (
         <a
           href={publicUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-xs text-blue-500 hover:underline break-all max-w-[200px] truncate"
+          className="text-xs text-accent hover:text-accent-hover hover:underline break-all max-w-[200px] truncate transition-colors"
         >
           {publicUrl}
         </a>

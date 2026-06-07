@@ -44,24 +44,27 @@ export function NoteList({ notes }: { notes: NoteItem[] }) {
       </div>
 
       {notes.length === 0 ? (
-        <p className="text-zinc-500 text-sm">No notes yet. Create your first one!</p>
+        <div className="text-center py-16 animate-fade-in">
+          <p className="text-muted text-sm">No notes yet.</p>
+          <p className="text-muted text-xs mt-1">Create your first one above.</p>
+        </div>
       ) : view === "list" ? (
-        <ul className="space-y-2">
+        <ul className="space-y-1.5 stagger">
           {notes.map((note) => (
             <li
               key={note.id}
-              className="group flex items-center gap-2 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors pr-2"
+              className="group flex items-center gap-2 rounded-lg border border-border bg-surface hover:bg-surface-hover hover:border-l-accent hover:border-l-2 transition-all pr-2"
             >
               <Link
                 href={`/notes/${note.id}`}
                 className="flex flex-1 items-center justify-between p-3 min-w-0"
               >
-                <span className="font-medium text-zinc-900 dark:text-zinc-100 truncate">
+                <span className="font-medium text-fg truncate text-sm">
                   {note.title}
                 </span>
-                <span className="flex items-center gap-2 text-xs text-zinc-400 shrink-0 ml-2">
+                <span className="flex items-center gap-2 text-xs text-muted shrink-0 ml-2">
                   {note.isPublic ? (
-                    <span className="px-1.5 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded text-zinc-500">
+                    <span className="px-1.5 py-0.5 bg-accent/10 border border-accent/20 rounded text-accent text-[10px] font-medium">
                       Public
                     </span>
                   ) : null}
@@ -72,7 +75,7 @@ export function NoteList({ notes }: { notes: NoteItem[] }) {
                 type="button"
                 aria-label={`Delete "${note.title}"`}
                 onClick={() => setConfirmId(note.id)}
-                className="cursor-pointer shrink-0 p-1.5 rounded opacity-0 group-hover:opacity-100 text-zinc-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950 transition-all"
+                className="cursor-pointer shrink-0 p-1.5 rounded opacity-0 group-hover:opacity-100 text-muted hover:text-danger hover:bg-danger-surface transition-all"
               >
                 <TrashIcon />
               </button>
@@ -80,30 +83,30 @@ export function NoteList({ notes }: { notes: NoteItem[] }) {
           ))}
         </ul>
       ) : (
-        <ul className={`grid gap-3 ${view === "grid3" ? "grid-cols-3" : "grid-cols-4"}`}>
+        <ul className={`grid gap-2.5 stagger ${view === "grid3" ? "grid-cols-3" : "grid-cols-4"}`}>
           {notes.map((note) => (
             <li key={note.id} className="group relative">
               <Link
                 href={`/notes/${note.id}`}
-                className="flex flex-col gap-1 rounded-lg border border-zinc-200 dark:border-zinc-700 p-3 hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors h-full min-h-[90px]"
+                className="flex flex-col gap-1 rounded-lg border border-border bg-surface p-3 hover:bg-surface-hover transition-colors h-full min-h-[90px]"
               >
-                <span className="font-medium text-zinc-900 dark:text-zinc-100 text-sm line-clamp-2 pr-5">
+                <span className="font-medium text-fg text-sm line-clamp-2 pr-5">
                   {note.title}
                 </span>
-                <span className="mt-auto flex items-center gap-1.5 flex-wrap">
+                <span className="mt-auto flex items-center gap-1.5 flex-wrap pt-1">
                   {note.isPublic ? (
-                    <span className="text-xs px-1.5 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded text-zinc-500">
+                    <span className="text-[10px] px-1.5 py-0.5 bg-bg border border-border rounded text-muted">
                       Public
                     </span>
                   ) : null}
-                  <span className="text-xs text-zinc-400">{note.formattedDate}</span>
+                  <span className="text-[11px] text-muted">{note.formattedDate}</span>
                 </span>
               </Link>
               <button
                 type="button"
                 aria-label={`Delete "${note.title}"`}
                 onClick={() => setConfirmId(note.id)}
-                className="cursor-pointer absolute top-2 right-2 p-1 rounded opacity-0 group-hover:opacity-100 text-zinc-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950 transition-all"
+                className="cursor-pointer absolute top-2 right-2 p-1 rounded opacity-0 group-hover:opacity-100 text-muted hover:text-danger hover:bg-danger-surface transition-all"
               >
                 <TrashIcon />
               </button>
@@ -118,27 +121,27 @@ export function NoteList({ notes }: { notes: NoteItem[] }) {
           role="dialog"
           aria-modal="true"
           aria-labelledby="delete-confirm-title"
-          className="fixed inset-0 z-50 flex items-center justify-center"
+          className="fixed inset-0 z-50 flex items-center justify-center animate-fade-in"
         >
           <div
-            className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+            className="absolute inset-0 bg-fg/20 backdrop-blur-sm"
             onClick={() => setConfirmId(null)}
           />
-          <div className="relative z-10 w-full max-w-sm mx-4 bg-white dark:bg-zinc-900 rounded-xl shadow-xl p-6">
+          <div className="relative z-10 w-full max-w-sm mx-4 bg-surface border border-border rounded-2xl shadow-xl p-6 animate-scale-in">
             <h2
               id="delete-confirm-title"
-              className="text-base font-semibold text-zinc-900 dark:text-zinc-50 mb-1"
+              className="font-serif text-base font-semibold text-fg mb-1"
             >
               Delete note?
             </h2>
-            <p className="text-sm text-zinc-500 mb-5 truncate">
+            <p className="text-sm text-muted mb-5 truncate">
               &ldquo;{noteToDelete?.title}&rdquo; will be permanently deleted.
             </p>
             <div className="flex justify-end gap-2">
               <button
                 type="button"
                 onClick={() => setConfirmId(null)}
-                className="cursor-pointer px-4 py-2 rounded-md text-sm text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+                className="cursor-pointer px-4 py-2 rounded-md text-sm text-fg hover:bg-bg transition-colors"
               >
                 Cancel
               </button>
@@ -146,7 +149,7 @@ export function NoteList({ notes }: { notes: NoteItem[] }) {
                 type="button"
                 disabled={loadingId === confirmId}
                 onClick={() => handleDelete(confirmId)}
-                className="cursor-pointer px-4 py-2 rounded-md text-sm bg-red-600 text-white hover:bg-red-700 disabled:opacity-50 transition-colors"
+                className="cursor-pointer px-4 py-2 rounded-md text-sm bg-danger text-white hover:bg-danger-hover disabled:opacity-50 transition-colors"
               >
                 {loadingId === confirmId ? "Deleting…" : "Delete"}
               </button>
@@ -177,8 +180,8 @@ function ViewToggleButton({
       onClick={onClick}
       className={`cursor-pointer p-1.5 rounded transition-colors ${
         active
-          ? "bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900"
-          : "text-zinc-400 hover:text-zinc-700 hover:bg-zinc-100 dark:hover:text-zinc-300 dark:hover:bg-zinc-800"
+          ? "bg-fg text-bg"
+          : "text-muted hover:text-fg hover:bg-surface"
       }`}
     >
       {children}

@@ -1,10 +1,8 @@
 "use client";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 
 export default function AuthenticatePage() {
-  const router = useRouter();
   const [mode, setMode] = useState<"login" | "register">("login");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -31,53 +29,72 @@ export default function AuthenticatePage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 dark:bg-zinc-950 px-4">
-      <div className="w-full max-w-sm">
-        <h1 className="text-2xl font-bold text-center mb-6 text-zinc-900 dark:text-zinc-50">
-          {mode === "login" ? "Log in" : "Sign up"}
-        </h1>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {mode === "register" && (
+    <div className="flex min-h-[calc(100vh-56px)] items-center justify-center px-4">
+      <div className="w-full max-w-sm animate-scale-in">
+        {/* Card */}
+        <div className="bg-surface border border-border rounded-2xl p-8 shadow-sm">
+          <div className="mb-6">
+            <div className="w-8 h-0.5 bg-accent rounded-full mb-4" />
+            <h1 className="font-serif text-2xl font-semibold text-fg">
+              {mode === "login" ? "Welcome back" : "Create account"}
+            </h1>
+            <p className="text-sm text-muted mt-1">
+              {mode === "login"
+                ? "Sign in to your notes"
+                : "Start writing in seconds"}
+            </p>
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-3">
+            {mode === "register" && (
+              <input
+                type="text"
+                placeholder="Your name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+                className="w-full px-3 py-2.5 rounded-md border border-border bg-bg text-fg placeholder:text-muted text-sm outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-colors"
+              />
+            )}
             <input
-              type="text"
-              placeholder="Name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full px-3 py-2 border border-zinc-300 dark:border-zinc-700 rounded-md bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-50 outline-none focus:border-zinc-500"
+              className="w-full px-3 py-2.5 rounded-md border border-border bg-bg text-fg placeholder:text-muted text-sm outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-colors"
             />
-          )}
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            className="w-full px-3 py-2 border border-zinc-300 dark:border-zinc-700 rounded-md bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-50 outline-none focus:border-zinc-500"
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            className="w-full px-3 py-2 border border-zinc-300 dark:border-zinc-700 rounded-md bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-50 outline-none focus:border-zinc-500"
-          />
-          {error && <p className="text-sm text-red-500">{error}</p>}
-          <button
-            type="submit"
-            disabled={loading}
-            className="cursor-pointer w-full py-2 rounded-md bg-zinc-900 text-white hover:bg-zinc-700 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-200 transition-colors disabled:opacity-50"
-          >
-            {loading ? "..." : mode === "login" ? "Log in" : "Sign up"}
-          </button>
-        </form>
-        <p className="text-center text-sm text-zinc-500 mt-4">
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className="w-full px-3 py-2.5 rounded-md border border-border bg-bg text-fg placeholder:text-muted text-sm outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-colors"
+            />
+
+            {error ? (
+              <p role="alert" className="text-sm text-danger py-2 px-3 rounded-md bg-danger-surface">
+                {error}
+              </p>
+            ) : null}
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="cursor-pointer w-full py-2.5 mt-1 rounded-md bg-accent text-accent-fg text-sm font-medium hover:bg-accent-hover transition-colors disabled:opacity-50"
+            >
+              {loading ? "…" : mode === "login" ? "Log in" : "Sign up"}
+            </button>
+          </form>
+        </div>
+
+        <p className="text-center text-sm text-muted mt-4">
           {mode === "login" ? "No account?" : "Have an account?"}{" "}
           <button
             type="button"
-            onClick={() => setMode(mode === "login" ? "register" : "login")}
-            className="cursor-pointer text-zinc-900 dark:text-zinc-100 font-medium hover:underline"
+            onClick={() => { setError(""); setMode(mode === "login" ? "register" : "login"); }}
+            className="cursor-pointer text-accent hover:text-accent-hover font-medium transition-colors"
           >
             {mode === "login" ? "Sign up" : "Log in"}
           </button>

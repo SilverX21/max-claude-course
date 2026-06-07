@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Lora } from "next/font/google";
 import { Header } from "@/components/Header";
 import "./globals.css";
 
@@ -13,8 +13,14 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const lora = Lora({
+  variable: "--font-lora",
+  subsets: ["latin"],
+  style: ["normal", "italic"],
+});
+
 export const metadata: Metadata = {
-  title: "Notes",
+  title: "Next Notes",
   description: "A simple rich-text note-taking app",
 };
 
@@ -24,9 +30,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-50`}
+        className={`${geistSans.variable} ${geistMono.variable} ${lora.variable} antialiased bg-bg text-fg min-h-screen`}
       >
         <Header />
         <main>{children}</main>
