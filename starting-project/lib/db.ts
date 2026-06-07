@@ -90,6 +90,13 @@ db.run("CREATE INDEX IF NOT EXISTS idx_notes_user_id ON notes(user_id)");
 db.run("CREATE INDEX IF NOT EXISTS idx_notes_public_slug ON notes(public_slug)");
 db.run("CREATE INDEX IF NOT EXISTS idx_notes_is_public ON notes(is_public)");
 
+// Migrate: add soft-delete column (no-op if already exists)
+try {
+  db.run("ALTER TABLE notes ADD COLUMN deleted_at TEXT");
+} catch {
+  // Column already exists — safe to ignore
+}
+
 import type { SQLQueryBindings } from "bun:sqlite";
 
 export function query<T>(sql: string, params?: SQLQueryBindings[]): T[] {

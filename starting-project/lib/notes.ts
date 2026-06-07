@@ -10,6 +10,13 @@ export type Note = {
   publicSlug: string | null;
   createdAt: string;
   updatedAt: string;
+  deletedAt: string | null;
+};
+
+export type NoteStats = {
+  total: number;
+  last7Days: number;
+  deletedPercent: number;
 };
 
 type NoteRow = {
@@ -21,6 +28,7 @@ type NoteRow = {
   public_slug: string | null;
   created_at: string;
   updated_at: string;
+  deleted_at: string | null;
 };
 
 const EMPTY_DOC = JSON.stringify({ type: "doc", content: [] });
@@ -35,6 +43,7 @@ function toNote(row: NoteRow): Note {
     publicSlug: row.public_slug,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
+    deletedAt: row.deleted_at ?? null,
   };
 }
 
@@ -56,7 +65,7 @@ export async function createNote(
 
 export async function getNotesByUser(userId: string): Promise<Note[]> {
   return query<NoteRow>(
-    "SELECT * FROM notes WHERE user_id = ? ORDER BY updated_at DESC",
+    "SELECT * FROM notes WHERE user_id = ? AND deleted_at IS NULL ORDER BY updated_at DESC",
     [userId]
   ).map(toNote);
 }
@@ -66,7 +75,7 @@ export async function getNoteById(
   noteId: string
 ): Promise<Note | null> {
   const row = get<NoteRow>(
-    "SELECT * FROM notes WHERE id = ? AND user_id = ?",
+    "SELECT * FROM notes WHERE id = ? AND user_id = ? AND deleted_at IS NULL",
     [noteId, userId]
   );
   return row ? toNote(row) : null;
@@ -89,7 +98,10 @@ export async function updateNote(
 }
 
 export async function deleteNote(userId: string, noteId: string): Promise<void> {
-  run("DELETE FROM notes WHERE id = ? AND user_id = ?", [noteId, userId]);
+  run(
+    "UPDATE notes SET deleted_at = datetime('now') WHERE id = ? AND user_id = ?",
+    [noteId, userId]
+  );
 }
 
 export async function setNotePublic(
@@ -116,8 +128,36 @@ export async function setNotePublic(
 
 export async function getNoteByPublicSlug(slug: string): Promise<Note | null> {
   const row = get<NoteRow>(
-    "SELECT * FROM notes WHERE public_slug = ? AND is_public = 1",
+    "SELECT * FROM notes WHERE public_slug = ? AND is_public = 1 AND deleted_at IS NULL",
     [slug]
   );
   return row ? toNote(row) : null;
+}
+
+export async function getNoteStats(userId: string): Promise<NoteStats> {
+  const active =
+    get<{ count: number }>(
+      "SELECT COUNT(*) as count FROM notes WHERE user_id = ? AND deleted_at IS NULL",
+      [userId]
+    )?.count ?? 0;
+
+  const deleted =
+    get<{ count: number }>(
+      "SELECT COUNT(*) as count FROM notes WHERE user_id = ? AND deleted_at IS NOT NULL",
+      [userId]
+    )?.count ?? 0;
+
+  const last7Days =
+    get<{ count: number }>(
+      "SELECT COUNT(*) as count FROM notes WHERE user_id = ? AND deleted_at IS NULL AND created_at >= datetime('now', '-7 days')",
+      [userId]
+    )?.count ?? 0;
+
+  const everCreated = active + deleted;
+
+  return {
+    total: active,
+    last7Days,
+    deletedPercent: everCreated === 0 ? 0 : Math.round((deleted / everCreated) * 100),
+  };
 }
