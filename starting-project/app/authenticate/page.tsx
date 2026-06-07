@@ -24,7 +24,7 @@ export default function AuthenticatePage() {
         const { error } = await authClient.signUp.email({ email, password, name });
         if (error) { setError(error.message ?? "Registration failed"); return; }
       }
-      router.push("/dashboard");
+      window.location.href = "/dashboard";
     } finally {
       setLoading(false);
     }
@@ -67,7 +67,7 @@ export default function AuthenticatePage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-2 rounded-md bg-zinc-900 text-white hover:bg-zinc-700 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-200 transition-colors disabled:opacity-50"
+            className="cursor-pointer w-full py-2 rounded-md bg-zinc-900 text-white hover:bg-zinc-700 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-200 transition-colors disabled:opacity-50"
           >
             {loading ? "..." : mode === "login" ? "Log in" : "Sign up"}
           </button>
@@ -77,7 +77,7 @@ export default function AuthenticatePage() {
           <button
             type="button"
             onClick={() => setMode(mode === "login" ? "register" : "login")}
-            className="text-zinc-900 dark:text-zinc-100 font-medium hover:underline"
+            className="cursor-pointer text-zinc-900 dark:text-zinc-100 font-medium hover:underline"
           >
             {mode === "login" ? "Sign up" : "Log in"}
           </button>

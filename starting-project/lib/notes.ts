@@ -135,24 +135,18 @@ export async function getNoteByPublicSlug(slug: string): Promise<Note | null> {
 }
 
 export async function getNoteStats(userId: string): Promise<NoteStats> {
-  const active =
-    get<{ count: number }>(
-      "SELECT COUNT(*) as count FROM notes WHERE user_id = ? AND deleted_at IS NULL",
-      [userId]
-    )?.count ?? 0;
+  const row = get<{ active: number; deleted: number; last7Days: number }>(
+    `SELECT
+      SUM(CASE WHEN deleted_at IS NULL THEN 1 ELSE 0 END) AS active,
+      SUM(CASE WHEN deleted_at IS NOT NULL THEN 1 ELSE 0 END) AS deleted,
+      SUM(CASE WHEN deleted_at IS NULL AND created_at >= datetime('now', '-7 days') THEN 1 ELSE 0 END) AS last7Days
+    FROM notes WHERE user_id = ?`,
+    [userId]
+  );
 
-  const deleted =
-    get<{ count: number }>(
-      "SELECT COUNT(*) as count FROM notes WHERE user_id = ? AND deleted_at IS NOT NULL",
-      [userId]
-    )?.count ?? 0;
-
-  const last7Days =
-    get<{ count: number }>(
-      "SELECT COUNT(*) as count FROM notes WHERE user_id = ? AND deleted_at IS NULL AND created_at >= datetime('now', '-7 days')",
-      [userId]
-    )?.count ?? 0;
-
+  const active = row?.active ?? 0;
+  const deleted = row?.deleted ?? 0;
+  const last7Days = row?.last7Days ?? 0;
   const everCreated = active + deleted;
 
   return {

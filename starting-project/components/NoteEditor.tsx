@@ -2,20 +2,21 @@
 import { useEditor, EditorContent, useEditorState } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { useRef, useState } from "react";
-import type { Note } from "@/lib/notes";
 
-export function NoteEditor({ note }: { note: Note }) {
-  const [title, setTitle] = useState(note.title);
-  const titleRef = useRef(note.title);
+type Props = { id: string; title: string; contentJson: string };
+
+export function NoteEditor({ id, title: initialTitle, contentJson }: Props) {
+  const [title, setTitle] = useState(initialTitle);
+  const titleRef = useRef(initialTitle);
   const saveTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   const editor = useEditor({
     extensions: [StarterKit.configure({ heading: { levels: [1, 2, 3] } })],
-    content: JSON.parse(note.contentJson),
+    content: JSON.parse(contentJson),
     onUpdate: ({ editor }) => {
       clearTimeout(saveTimer.current);
       saveTimer.current = setTimeout(() => {
-        fetch(`/api/notes/${note.id}`, {
+        fetch(`/api/notes/${id}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ title: titleRef.current, contentJson: editor.getJSON() }),
@@ -45,7 +46,7 @@ export function NoteEditor({ note }: { note: Note }) {
     titleRef.current = value;
     clearTimeout(saveTimer.current);
     saveTimer.current = setTimeout(() => {
-      fetch(`/api/notes/${note.id}`, {
+      fetch(`/api/notes/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ title: value, contentJson: editor?.getJSON() }),
@@ -195,7 +196,7 @@ function ToolbarButton({
       aria-label={label}
       aria-pressed={active}
       title={label}
-      className={`px-2 py-1 rounded text-sm font-mono transition-colors ${
+      className={`cursor-pointer px-2 py-1 rounded text-sm font-mono transition-colors ${
         active
           ? "bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900"
           : "bg-zinc-100 text-zinc-700 hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700"

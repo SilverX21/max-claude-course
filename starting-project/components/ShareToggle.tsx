@@ -5,9 +5,10 @@ type Props = {
   noteId: string;
   initialIsPublic: boolean;
   initialSlug: string | null;
+  origin: string;
 };
 
-export function ShareToggle({ noteId, initialIsPublic, initialSlug }: Props) {
+export function ShareToggle({ noteId, initialIsPublic, initialSlug, origin }: Props) {
   const [isPublic, setIsPublic] = useState(initialIsPublic);
   const [slug, setSlug] = useState(initialSlug);
 
@@ -22,10 +23,7 @@ export function ShareToggle({ noteId, initialIsPublic, initialSlug }: Props) {
     setSlug(data.publicSlug);
   }
 
-  const publicUrl =
-    slug && typeof window !== "undefined"
-      ? `${window.location.origin}/p/${slug}`
-      : null;
+  const publicUrl = slug ? `${origin}/p/${slug}` : null;
 
   return (
     <div className="flex flex-col gap-1.5">
@@ -51,7 +49,7 @@ export function ShareToggle({ noteId, initialIsPublic, initialSlug }: Props) {
         </div>
         <span className="text-sm text-zinc-700 dark:text-zinc-300">Share</span>
       </label>
-      {isPublic && publicUrl && (
+      {isPublic && publicUrl ? (
         <a
           href={publicUrl}
           target="_blank"
@@ -60,7 +58,7 @@ export function ShareToggle({ noteId, initialIsPublic, initialSlug }: Props) {
         >
           {publicUrl}
         </a>
-      )}
+      ) : null}
     </div>
   );
 }

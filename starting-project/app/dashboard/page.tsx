@@ -27,7 +27,16 @@ export default async function DashboardPage() {
         <h1 className="text-xl font-semibold text-zinc-900 dark:text-zinc-50">My Notes</h1>
         <CreateNoteButton />
       </div>
-      <NoteList notes={notes} />
+      <NoteList notes={notes.map(({ id, title, updatedAt, isPublic }) => ({
+          id,
+          title,
+          isPublic,
+          formattedDate: new Date(updatedAt).toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+          }),
+        }))} />
     </div>
   );
 }

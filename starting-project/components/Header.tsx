@@ -17,21 +17,21 @@ export async function Header() {
         </Link>
 
         {/* Left nav */}
-        {user && (
+        {user ? (
           <Link
             href="/dashboard"
             className="text-sm text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
           >
             My Notes
           </Link>
-        )}
+        ) : null}
 
         {/* Right: logout */}
-        {user && (
+        {user ? (
           <div className="ml-auto">
             <LogoutButton />
           </div>
-        )}
+        ) : null}
       </div>
     </header>
   );

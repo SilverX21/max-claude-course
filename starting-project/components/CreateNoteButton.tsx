@@ -52,7 +52,7 @@ export function CreateNoteButton() {
     <>
       <button
         onClick={openModal}
-        className="px-4 py-2 rounded-md bg-zinc-900 text-white text-sm hover:bg-zinc-700 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-200 transition-colors"
+        className="cursor-pointer px-4 py-2 rounded-md bg-zinc-900 text-white text-sm hover:bg-zinc-700 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-200 transition-colors"
       >
         New note
       </button>
@@ -105,7 +105,7 @@ export function CreateNoteButton() {
                 <button
                   type="button"
                   onClick={closeModal}
-                  className="px-4 py-2 rounded-md text-sm text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+                  className="cursor-pointer px-4 py-2 rounded-md text-sm text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
                 >
                   Cancel
                 </button>

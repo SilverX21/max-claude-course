@@ -1,4 +1,5 @@
 import { notFound, redirect } from "next/navigation";
+import { headers } from "next/headers";
 import { getCurrentUser } from "@/lib/auth";
 import { getNoteById } from "@/lib/notes";
 import { NoteEditor } from "@/components/NoteEditor";
@@ -11,10 +12,14 @@ export default async function NoteEditorPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const [{ id }, user] = await Promise.all([params, getCurrentUser()]);
+  const [{ id }, user, hdrs] = await Promise.all([params, getCurrentUser(), headers()]);
   if (!user) redirect("/authenticate");
   const note = await getNoteById(user.id, id);
   if (!note) notFound();
+
+  const host = hdrs.get("host") ?? "localhost:3000";
+  const proto = host.startsWith("localhost") ? "http" : "https";
+  const origin = `${proto}://${host}`;
 
   return (
     <div>
@@ -30,11 +35,12 @@ export default async function NoteEditorPage({
             noteId={note.id}
             initialIsPublic={note.isPublic}
             initialSlug={note.publicSlug}
+            origin={origin}
           />
           <DeleteNoteButton noteId={note.id} />
         </div>
       </div>
-      <NoteEditor note={note} />
+      <NoteEditor id={note.id} title={note.title} contentJson={note.contentJson} />
     </div>
   );
 }

@@ -19,7 +19,7 @@ export function DeleteNoteButton({ noteId }: { noteId: string }) {
     <button
       onClick={handleDelete}
       onBlur={() => setConfirming(false)}
-      className="text-sm px-3 py-1.5 rounded border transition-colors text-red-600 border-red-200 hover:bg-red-50 dark:border-red-900 dark:hover:bg-red-950"
+      className="cursor-pointer text-sm px-3 py-1.5 rounded border transition-colors text-red-600 border-red-200 hover:bg-red-50 dark:border-red-900 dark:hover:bg-red-950"
     >
       {confirming ? "Confirm?" : "Delete"}
     </button>

@@ -7,13 +7,13 @@ export function LogoutButton() {
 
   async function handleLogout() {
     await authClient.signOut();
-    router.push("/");
+    window.location.href = "/";
   }
 
   return (
     <button
       onClick={handleLogout}
-      className="text-sm text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
+      className="cursor-pointer text-sm text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
     >
       Log out
     </button>
