@@ -8,7 +8,7 @@
     "start": "bun run --bun next start",
     "lint": "oxlint",
     "format": "oxfmt",
-    "test": "bun test lib",
+    "test": "bun test __tests__",
     "test:vitest": "vitest",
     "test:e2e": "playwright test"
   },

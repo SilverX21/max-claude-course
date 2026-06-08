@@ -8,7 +8,7 @@ export default defineConfig({
     },
   },
   test: {
-    environment: 'jsdom',
+    environment: 'node',
     include: ['__tests__/**/*.test.ts', '__tests__/**/*.test.tsx'],
     exclude: [
       '**/node_modules/**',
@@ -17,5 +17,10 @@ export default defineConfig({
       '**/.{idea,git,cache,output,temp}/**',
     ],
     globals: true,
+    server: {
+      deps: {
+        external: ['bun:sqlite'],
+      },
+    },
   },
 });

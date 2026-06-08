@@ -165,7 +165,7 @@
       "Display error messages on failure",
       "Handle success (will redirect in parent)"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "ui",
@@ -178,7 +178,7 @@
       "Display error messages on failure",
       "Handle success (will redirect in parent)"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "ui",
@@ -190,7 +190,7 @@
       "Redirect to /dashboard after successful auth",
       "Style page layout"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "ui",
@@ -203,7 +203,7 @@
       "Show Dashboard link and Logout button when authenticated",
       "Add to app/layout.tsx"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "ui",
@@ -215,7 +215,7 @@
       "Add to Header component",
       "Test logout clears session"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "actions",
@@ -274,7 +274,7 @@
       "Pass notes to client component for display",
       "Handle empty state"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "ui",
@@ -286,7 +286,7 @@
       "Style as card layout",
       "Show helpful message when list is empty"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "ui",
@@ -298,7 +298,7 @@
       "Show loading state while creating",
       "Add to dashboard page"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "ui",
@@ -309,7 +309,7 @@
       "Add 'Try again' functionality",
       "Style appropriately"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "ui",
@@ -321,7 +321,7 @@
       "Return 404 if not found or not owned",
       "Pass note data to editor component"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "ui",
@@ -334,7 +334,7 @@
       "Initialize with note's contentJson",
       "Add onChange callback to track content changes"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "ui",
@@ -345,7 +345,7 @@
       "Track title changes in state",
       "Style input appropriately"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "ui",
@@ -357,7 +357,7 @@
       "Add Paragraph button to reset formatting",
       "Show active state for current formatting"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "ui",
@@ -369,7 +369,7 @@
       "Add Horizontal rule button",
       "Test all formatting options work"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "ui",
@@ -380,7 +380,7 @@
       "Show save status indicator (saving/saved/error)",
       "Don't trigger auto-save on initial load"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "ui",
@@ -392,7 +392,7 @@
       "Redirect to /dashboard after delete",
       "Show loading state during deletion"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "ui",
@@ -403,7 +403,7 @@
       "Show toast notifications for save/delete results",
       "Create loading.tsx for editor page"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "ui",
@@ -415,7 +415,7 @@
       "Display public URL when enabled",
       "Add Copy URL button"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "ui",
@@ -426,7 +426,7 @@
       "Handle copy errors gracefully",
       "Integrate into ShareToggle"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "ui",
@@ -438,7 +438,7 @@
       "No auth check needed (public route)",
       "Pass note to viewer component"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "ui",
@@ -450,7 +450,7 @@
       "Style for reading (typography, spacing)",
       "No editing controls visible"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "ui",
@@ -461,7 +461,7 @@
       "Improve CTA button styling",
       "Ensure responsive layout"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "ui",
@@ -473,7 +473,7 @@
       "Test dark mode works across all pages",
       "Fix any contrast issues"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "ui",
@@ -485,7 +485,7 @@
       "Ensure touch targets are appropriate",
       "Test navigation works on mobile"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "testing",
@@ -496,7 +496,7 @@
       "Set test file patterns",
       "Verify 'bun test' runs correctly"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "testing",
@@ -508,7 +508,7 @@
       "Test get<T>() returns single row",
       "Test run() executes mutations"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "testing",
@@ -521,7 +521,7 @@
       "Test deleteNote() authorization",
       "Test setNotePublic() generates/clears slug"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "testing",
@@ -534,7 +534,7 @@
       "Test deleteNoteAction validates ownership",
       "Test toggleShareAction updates correctly"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "testing",
@@ -547,7 +547,7 @@
       "Create e2e/setup.ts for test database setup",
       "Verify 'bun test:e2e' runs"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "testing",
@@ -560,7 +560,7 @@
       "Test redirect to dashboard after auth",
       "Test logout works"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "testing",
@@ -573,7 +573,7 @@
       "Test auto-save works",
       "Test delete with confirmation"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "testing",
@@ -586,7 +586,7 @@
       "Test 404 for private/invalid slugs",
       "Test copy URL works"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "testing",
@@ -598,6 +598,6 @@
       "Test dark mode styling",
       "Verify all interactions work on mobile"
     ],
-    "passes": false
+    "passes": true
   }
 ]
