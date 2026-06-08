@@ -112,6 +112,7 @@ A skill must have a `name` and `description`, something like this:
 
 ```
 ---
+
 name: cool-skill
 description: this is a cool skill
 ```
@@ -151,3 +152,29 @@ $CLAUDE_PROJECT_DIR -> is a special variable that Claude Code provides where it 
 
 With this hook in place, every time Claude edits or writes a file, ESLint runs automatically to fix formatting — no need to ask Claude to do it, and no chance it gets skipped.
 For more info, check the documentation [here](https://code.claude.com/docs/en/hooks)
+
+### 13. Sandbox Mode
+
+Sandbox mode restricts Claude Code from executing certain shell commands automatically, requiring explicit user approval before any potentially dangerous or irreversible actions run. It acts as a safety net, ensuring Claude cannot silently delete files, run arbitrary scripts, or modify system state without you seeing and approving the command first.
+
+**How it works:** When sandbox mode is active, tool calls that involve shell execution (like `Bash`) are intercepted and shown to you for approval before they run. You can allow or deny each command. This is especially useful when working in sensitive environments, running unfamiliar code, or when you want tight control over what gets executed on your machine.
+
+**Enabling sandbox mode:** You can toggle sandbox mode directly in the Claude Code session by typing `/sandbox` or by setting it in your `.claude/settings.json`:
+
+```json
+{
+  "sandbox": true
+}
+```
+
+**Example — approving a destructive command:**
+
+Suppose Claude wants to clean up build artifacts and runs:
+
+```bash
+rm -rf dist/ .next/ node_modules/.cache
+```
+
+In sandbox mode, instead of executing immediately, Claude Code will pause and show you this command with an **Allow / Deny** prompt. You review it, confirm it looks safe, and only then does it execute. If Claude had made a mistake (e.g., accidentally targeting the wrong directory), you catch it before any damage is done.
+
+This is different from hooks — hooks run automatically after events, while sandbox mode gates execution on explicit human approval. Use sandbox mode whenever you want a human-in-the-loop checkpoint on all shell activity.
