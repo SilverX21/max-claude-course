@@ -49,7 +49,7 @@ function toNote(row: NoteRow): Note {
 
 export async function createNote(
   userId: string,
-  data: { title?: string; contentJson?: string } = {}
+  data: { title?: string; contentJson?: string } = {},
 ): Promise<Note> {
   const id = nanoid(16);
   const title = data.title ?? "Untitled note";
@@ -66,17 +66,14 @@ export async function createNote(
 export async function getNotesByUser(userId: string): Promise<Note[]> {
   return query<NoteRow>(
     "SELECT * FROM notes WHERE user_id = ? AND deleted_at IS NULL ORDER BY updated_at DESC",
-    [userId]
+    [userId],
   ).map(toNote);
 }
 
-export async function getNoteById(
-  userId: string,
-  noteId: string
-): Promise<Note | null> {
+export async function getNoteById(userId: string, noteId: string): Promise<Note | null> {
   const row = get<NoteRow>(
     "SELECT * FROM notes WHERE id = ? AND user_id = ? AND deleted_at IS NULL",
-    [noteId, userId]
+    [noteId, userId],
   );
   return row ? toNote(row) : null;
 }
@@ -84,7 +81,7 @@ export async function getNoteById(
 export async function updateNote(
   userId: string,
   noteId: string,
-  data: Partial<{ title: string; contentJson: string }>
+  data: Partial<{ title: string; contentJson: string }>,
 ): Promise<Note | null> {
   const note = await getNoteById(userId, noteId);
   if (!note) return null;
@@ -92,22 +89,22 @@ export async function updateNote(
   const contentJson = data.contentJson ?? note.contentJson;
   run(
     "UPDATE notes SET title = ?, content_json = ?, updated_at = datetime('now') WHERE id = ? AND user_id = ?",
-    [title, contentJson, noteId, userId]
+    [title, contentJson, noteId, userId],
   );
   return getNoteById(userId, noteId);
 }
 
 export async function deleteNote(userId: string, noteId: string): Promise<void> {
-  run(
-    "UPDATE notes SET deleted_at = datetime('now') WHERE id = ? AND user_id = ?",
-    [noteId, userId]
-  );
+  run("UPDATE notes SET deleted_at = datetime('now') WHERE id = ? AND user_id = ?", [
+    noteId,
+    userId,
+  ]);
 }
 
 export async function setNotePublic(
   userId: string,
   noteId: string,
-  isPublic: boolean
+  isPublic: boolean,
 ): Promise<Note | null> {
   const note = await getNoteById(userId, noteId);
   if (!note) return null;
@@ -115,12 +112,12 @@ export async function setNotePublic(
     const slug = note.publicSlug ?? nanoid(16);
     run(
       "UPDATE notes SET is_public = 1, public_slug = ?, updated_at = datetime('now') WHERE id = ? AND user_id = ?",
-      [slug, noteId, userId]
+      [slug, noteId, userId],
     );
   } else {
     run(
       "UPDATE notes SET is_public = 0, public_slug = NULL, updated_at = datetime('now') WHERE id = ? AND user_id = ?",
-      [noteId, userId]
+      [noteId, userId],
     );
   }
   return getNoteById(userId, noteId);
@@ -129,7 +126,7 @@ export async function setNotePublic(
 export async function getNoteByPublicSlug(slug: string): Promise<Note | null> {
   const row = get<NoteRow>(
     "SELECT * FROM notes WHERE public_slug = ? AND is_public = 1 AND deleted_at IS NULL",
-    [slug]
+    [slug],
   );
   return row ? toNote(row) : null;
 }
@@ -141,7 +138,7 @@ export async function getNoteStats(userId: string): Promise<NoteStats> {
       SUM(CASE WHEN deleted_at IS NOT NULL THEN 1 ELSE 0 END) AS deleted,
       SUM(CASE WHEN deleted_at IS NULL AND created_at >= datetime('now', '-7 days') THEN 1 ELSE 0 END) AS last7Days
     FROM notes WHERE user_id = ?`,
-    [userId]
+    [userId],
   );
 
   const active = row?.active ?? 0;

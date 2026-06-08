@@ -8,10 +8,7 @@ export default async function DashboardPage() {
   const user = await getCurrentUser();
   if (!user) redirect("/authenticate");
 
-  const [notes, stats] = await Promise.all([
-    getNotesByUser(user.id),
-    getNoteStats(user.id),
-  ]);
+  const [notes, stats] = await Promise.all([getNotesByUser(user.id), getNoteStats(user.id)]);
 
   return (
     <div className="max-w-2xl mx-auto py-10 px-4">
@@ -22,22 +19,20 @@ export default async function DashboardPage() {
         <StatCard label="Deleted" value={`${stats.deletedPercent}%`} />
       </div>
 
-      {/* Header row */}
-      <div className="flex items-center justify-between mb-5">
-        <h1 className="font-serif text-xl font-semibold text-fg">My Notes</h1>
-        <CreateNoteButton />
-      </div>
-
-      <NoteList notes={notes.map(({ id, title, updatedAt, isPublic }) => ({
-        id,
-        title,
-        isPublic,
-        formattedDate: new Date(updatedAt).toLocaleDateString("en-US", {
-          year: "numeric",
-          month: "short",
-          day: "numeric",
-        }),
-      }))} />
+      <NoteList
+        title="My Notes"
+        createButton={<CreateNoteButton />}
+        notes={notes.map(({ id, title, updatedAt, isPublic }) => ({
+          id,
+          title,
+          isPublic,
+          formattedDate: new Date(updatedAt).toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+          }),
+        }))}
+      />
     </div>
   );
 }

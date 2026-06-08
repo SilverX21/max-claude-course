@@ -12,7 +12,15 @@ type NoteItem = {
 
 type ViewMode = "list" | "grid3" | "grid4";
 
-export function NoteList({ notes }: { notes: NoteItem[] }) {
+export function NoteList({
+  notes,
+  title,
+  createButton,
+}: {
+  notes: NoteItem[];
+  title?: React.ReactNode;
+  createButton?: React.ReactNode;
+}) {
   const router = useRouter();
   const [view, setView] = useState<ViewMode>("list");
   const [confirmId, setConfirmId] = useState<string | null>(null);
@@ -30,17 +38,35 @@ export function NoteList({ notes }: { notes: NoteItem[] }) {
 
   return (
     <>
-      {/* View toggle */}
-      <div className="flex items-center justify-end gap-1 mb-3">
-        <ViewToggleButton active={view === "list"} label="List view" onClick={() => setView("list")}>
-          <ListIcon />
-        </ViewToggleButton>
-        <ViewToggleButton active={view === "grid3"} label="3-column grid" onClick={() => setView("grid3")}>
-          <GridIcon cols={3} />
-        </ViewToggleButton>
-        <ViewToggleButton active={view === "grid4"} label="4-column grid" onClick={() => setView("grid4")}>
-          <GridIcon cols={4} />
-        </ViewToggleButton>
+      {/* Unified header: title + view toggles + action */}
+      <div className="flex items-center justify-between mb-4">
+        {title ? <h1 className="font-serif text-xl font-semibold text-fg">{title}</h1> : <div />}
+        <div className="flex items-center gap-2">
+          <div className="flex items-center gap-0.5 rounded-lg border border-border bg-surface p-0.5">
+            <ViewToggleButton
+              active={view === "list"}
+              label="List view"
+              onClick={() => setView("list")}
+            >
+              <ListIcon />
+            </ViewToggleButton>
+            <ViewToggleButton
+              active={view === "grid3"}
+              label="3-column grid"
+              onClick={() => setView("grid3")}
+            >
+              <GridIcon cols={3} />
+            </ViewToggleButton>
+            <ViewToggleButton
+              active={view === "grid4"}
+              label="4-column grid"
+              onClick={() => setView("grid4")}
+            >
+              <GridIcon cols={4} />
+            </ViewToggleButton>
+          </div>
+          {createButton}
+        </div>
       </div>
 
       {notes.length === 0 ? (
@@ -59,9 +85,7 @@ export function NoteList({ notes }: { notes: NoteItem[] }) {
                 href={`/notes/${note.id}`}
                 className="flex flex-1 items-center justify-between p-3 min-w-0"
               >
-                <span className="font-medium text-fg truncate text-sm">
-                  {note.title}
-                </span>
+                <span className="font-medium text-fg truncate text-sm">{note.title}</span>
                 <span className="flex items-center gap-2 text-xs text-muted shrink-0 ml-2">
                   {note.isPublic ? (
                     <span className="px-1.5 py-0.5 bg-accent/10 border border-accent/20 rounded text-accent text-[10px] font-medium">
@@ -90,9 +114,7 @@ export function NoteList({ notes }: { notes: NoteItem[] }) {
                 href={`/notes/${note.id}`}
                 className="flex flex-col gap-1 rounded-lg border border-border bg-surface p-3 hover:bg-surface-hover transition-colors h-full min-h-[90px]"
               >
-                <span className="font-medium text-fg text-sm line-clamp-2 pr-5">
-                  {note.title}
-                </span>
+                <span className="font-medium text-fg text-sm line-clamp-2 pr-5">{note.title}</span>
                 <span className="mt-auto flex items-center gap-1.5 flex-wrap pt-1">
                   {note.isPublic ? (
                     <span className="text-[10px] px-1.5 py-0.5 bg-bg border border-border rounded text-muted">
@@ -179,9 +201,7 @@ function ViewToggleButton({
       aria-pressed={active}
       onClick={onClick}
       className={`cursor-pointer p-1.5 rounded transition-colors ${
-        active
-          ? "bg-fg text-bg"
-          : "text-muted hover:text-fg hover:bg-surface"
+        active ? "bg-fg text-bg" : "text-muted hover:text-fg hover:bg-surface"
       }`}
     >
       {children}
@@ -245,7 +265,7 @@ function GridIcon({ cols }: { cols: 3 | 4 }) {
               fill="currentColor"
             />
           );
-        })
+        }),
       )}
     </svg>
   );

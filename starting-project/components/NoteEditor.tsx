@@ -187,9 +187,7 @@ function ToolbarButton({
       aria-pressed={active}
       title={label}
       className={`cursor-pointer px-2 py-1 rounded text-sm font-mono transition-colors ${
-        active
-          ? "bg-accent text-accent-fg"
-          : "bg-surface text-fg hover:bg-surface-hover"
+        active ? "bg-accent text-accent-fg" : "bg-surface text-fg hover:bg-surface-hover"
       }`}
     >
       {children}

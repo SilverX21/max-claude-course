@@ -121,4 +121,33 @@ Tip: Try to maintain your skills concise, this way the skill will work better!
 
 You can see more information about Skills in this [page](https://code.claude.com/docs/en/skills)
 
-### 12.
+### 12. Hooks
+
+Hooks are shell commands that Claude Code runs automatically at specific points in its lifecycle — before or after tool calls, when a session starts, etc. They let you enforce rules, run formatters, or trigger side effects without relying on Claude to remember to do it.
+
+**How they work:** You define hooks in your `.claude/settings.json` under a `hooks` key. Each hook specifies an event (e.g. `PostToolUse`) and a shell command to run. Claude Code executes that command automatically when the event fires.
+
+**Example — auto-format after every file edit:**
+
+```json
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cd \"$CLAUDE_PROJECT_DIR\" && bun run format 2>/dev/null || true"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+$CLAUDE_PROJECT_DIR -> is a special variable that Claude Code provides where it passes the current project directory that it is working
+
+With this hook in place, every time Claude edits or writes a file, ESLint runs automatically to fix formatting — no need to ask Claude to do it, and no chance it gets skipped.
+For more info, check the documentation [here](https://code.claude.com/docs/en/hooks)

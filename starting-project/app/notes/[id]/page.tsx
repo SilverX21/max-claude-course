@@ -7,11 +7,7 @@ import { ShareToggle } from "@/components/ShareToggle";
 import { DeleteNoteButton } from "@/components/DeleteNoteButton";
 import Link from "next/link";
 
-export default async function NoteEditorPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
+export default async function NoteEditorPage({ params }: { params: Promise<{ id: string }> }) {
   const [{ id }, user, hdrs] = await Promise.all([params, getCurrentUser(), headers()]);
   if (!user) redirect("/authenticate");
   const note = await getNoteById(user.id, id);

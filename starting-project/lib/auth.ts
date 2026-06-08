@@ -14,9 +14,7 @@ export const auth = betterAuth({
   plugins: [nextCookies()],
 });
 
-export const getSession = cache(async () =>
-  auth.api.getSession({ headers: await headers() })
-);
+export const getSession = cache(async () => auth.api.getSession({ headers: await headers() }));
 
 export async function getCurrentUser() {
   const session = await getSession();

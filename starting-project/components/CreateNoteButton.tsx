@@ -65,25 +65,16 @@ export function CreateNoteButton() {
           className="fixed inset-0 z-50 flex items-center justify-center animate-fade-in"
         >
           {/* Backdrop */}
-          <div
-            className="absolute inset-0 bg-fg/20 backdrop-blur-sm"
-            onClick={closeModal}
-          />
+          <div className="absolute inset-0 bg-fg/20 backdrop-blur-sm" onClick={closeModal} />
 
           {/* Dialog panel */}
           <div className="relative z-10 w-full max-w-sm mx-4 bg-surface border border-border rounded-2xl shadow-xl p-6 animate-scale-in">
-            <h2
-              id="create-note-title"
-              className="font-serif text-lg font-semibold text-fg mb-4"
-            >
+            <h2 id="create-note-title" className="font-serif text-lg font-semibold text-fg mb-4">
               New note
             </h2>
 
             <form onSubmit={handleSubmit} noValidate>
-              <label
-                htmlFor="note-title"
-                className="block text-sm font-medium text-fg mb-1.5"
-              >
+              <label htmlFor="note-title" className="block text-sm font-medium text-fg mb-1.5">
                 Title
               </label>
               <input
@@ -96,7 +87,10 @@ export function CreateNoteButton() {
               />
 
               {error ? (
-                <p role="alert" className="mt-2 text-sm text-danger bg-danger-surface px-3 py-2 rounded-md">
+                <p
+                  role="alert"
+                  className="mt-2 text-sm text-danger bg-danger-surface px-3 py-2 rounded-md"
+                >
                   {error}
                 </p>
               ) : null}

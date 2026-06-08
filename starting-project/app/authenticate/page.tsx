@@ -17,10 +17,16 @@ export default function AuthenticatePage() {
     try {
       if (mode === "login") {
         const { error } = await authClient.signIn.email({ email, password });
-        if (error) { setError(error.message ?? "Login failed"); return; }
+        if (error) {
+          setError(error.message ?? "Login failed");
+          return;
+        }
       } else {
         const { error } = await authClient.signUp.email({ email, password, name });
-        if (error) { setError(error.message ?? "Registration failed"); return; }
+        if (error) {
+          setError(error.message ?? "Registration failed");
+          return;
+        }
       }
       window.location.href = "/dashboard";
     } finally {
@@ -39,9 +45,7 @@ export default function AuthenticatePage() {
               {mode === "login" ? "Welcome back" : "Create account"}
             </h1>
             <p className="text-sm text-muted mt-1">
-              {mode === "login"
-                ? "Sign in to your notes"
-                : "Start writing in seconds"}
+              {mode === "login" ? "Sign in to your notes" : "Start writing in seconds"}
             </p>
           </div>
 
@@ -74,7 +78,10 @@ export default function AuthenticatePage() {
             />
 
             {error ? (
-              <p role="alert" className="text-sm text-danger py-2 px-3 rounded-md bg-danger-surface">
+              <p
+                role="alert"
+                className="text-sm text-danger py-2 px-3 rounded-md bg-danger-surface"
+              >
                 {error}
               </p>
             ) : null}
@@ -93,7 +100,10 @@ export default function AuthenticatePage() {
           {mode === "login" ? "No account?" : "Have an account?"}{" "}
           <button
             type="button"
-            onClick={() => { setError(""); setMode(mode === "login" ? "register" : "login"); }}
+            onClick={() => {
+              setError("");
+              setMode(mode === "login" ? "register" : "login");
+            }}
             className="cursor-pointer text-accent hover:text-accent-hover font-medium transition-colors"
           >
             {mode === "login" ? "Sign up" : "Log in"}
