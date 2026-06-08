@@ -131,6 +131,15 @@ export async function getNoteByPublicSlug(slug: string): Promise<Note | null> {
   return row ? toNote(row) : null;
 }
 
+export function computeNoteStats(active: number, deleted: number, last7Days: number): NoteStats {
+  const everCreated = active + deleted;
+  return {
+    total: active,
+    last7Days,
+    deletedPercent: everCreated === 0 ? 0 : Math.round((deleted / everCreated) * 100),
+  };
+}
+
 export async function getNoteStats(userId: string): Promise<NoteStats> {
   const row = get<{ active: number; deleted: number; last7Days: number }>(
     `SELECT
@@ -140,15 +149,5 @@ export async function getNoteStats(userId: string): Promise<NoteStats> {
     FROM notes WHERE user_id = ?`,
     [userId],
   );
-
-  const active = row?.active ?? 0;
-  const deleted = row?.deleted ?? 0;
-  const last7Days = row?.last7Days ?? 0;
-  const everCreated = active + deleted;
-
-  return {
-    total: active,
-    last7Days,
-    deletedPercent: everCreated === 0 ? 0 : Math.round((deleted / everCreated) * 100),
-  };
+  return computeNoteStats(row?.active ?? 0, row?.deleted ?? 0, row?.last7Days ?? 0);
 }

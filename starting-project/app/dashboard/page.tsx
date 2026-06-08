@@ -11,7 +11,7 @@ export default async function DashboardPage() {
   const [notes, stats] = await Promise.all([getNotesByUser(user.id), getNoteStats(user.id)]);
 
   return (
-    <div className="max-w-2xl mx-auto py-10 px-4">
+    <div className="max-w-2xl mx-auto py-6 sm:py-10 px-4">
       {/* Stats */}
       <div className="grid grid-cols-3 gap-3 mb-10 stagger">
         <StatCard label="Total notes" value={stats.total} />
