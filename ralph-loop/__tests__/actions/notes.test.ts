@@ -1,4 +1,4 @@
-import { describe, it, expect, mock, beforeAll, afterAll } from "bun:test";
+import { describe, it, expect, vi, beforeAll, afterAll } from "vitest";
 import { Database } from "bun:sqlite";
 import { nanoid } from "nanoid";
 
@@ -9,7 +9,7 @@ const mockSession = {
   session: { id: nanoid(), userId, token: nanoid(), expiresAt: new Date() },
 };
 
-mock.module("@/lib/db", () => ({
+vi.mock("@/lib/db", () => ({
   getDb: () => testDb,
   query: <T>(sql: string, params: unknown[] = []) =>
     testDb.query<T, unknown[]>(sql).all(...params),
@@ -18,13 +18,13 @@ mock.module("@/lib/db", () => ({
   run: (sql: string, params: unknown[] = []) => testDb.run(sql, params),
 }));
 
-mock.module("@/lib/auth", () => ({
+vi.mock("@/lib/auth", () => ({
   requireAuth: () => Promise.resolve(mockSession),
   getSession: () => Promise.resolve(mockSession),
 }));
 
-mock.module("next/cache", () => ({
-  revalidatePath: () => undefined,
+vi.mock("next/cache", () => ({
+  revalidatePath: vi.fn(),
 }));
 
 function setupSchema(db: Database) {

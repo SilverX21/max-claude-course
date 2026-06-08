@@ -1,10 +1,10 @@
-import { describe, it, expect, beforeAll, afterAll, mock } from "bun:test";
+import { describe, it, expect, vi, beforeAll, afterAll } from "vitest";
 import { Database } from "bun:sqlite";
 import { nanoid } from "nanoid";
 
 let testDb: Database;
 
-mock.module("@/lib/db", () => ({
+vi.mock("@/lib/db", () => ({
   getDb: () => testDb,
   query: <T>(sql: string, params: unknown[] = []) =>
     testDb.query<T, unknown[]>(sql).all(...params),

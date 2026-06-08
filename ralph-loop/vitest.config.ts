@@ -19,7 +19,8 @@ export default defineConfig({
     globals: true,
     server: {
       deps: {
-        external: ['bun:sqlite'],
+        // Force Zod v4 (ESM-only) to be inlined so Vite SSR can resolve it
+        inline: ['zod'],
       },
     },
   },
